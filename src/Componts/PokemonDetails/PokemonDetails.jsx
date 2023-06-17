@@ -1,49 +1,67 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../Card/Card'
 import axios from "axios"
+import Search from '../search/Search';
 
 const PokemonDetails = () => {
   const [pokemon, setpokemon] = useState([]);
-  const [nextList, setnextList] = useState();
-  const [previseList, setpreviseList] = useState();
+ 
+  const [url,setUrl] =useState("https://pokeapi.co/api/v2/pokemon?limit=500&offset=0")
   
-  const url ="https://pokeapi.co/api/v2/pokemon/"
 
-  // const pokedata = async()=>{
-  //   const res = await axios.get(url);
-  //   setnextList(res.data.next);
-  //   setpreviseList(res.data.previous);
-  //   getpokemondat(res.data.results)
-  // }
-  // const getpokemondat = (res)=>{
-  //   res.map(async(item)=>{
-  //     const result = await axios.get(item.url)
-  //     setpokemon((pok)=>{
-  //       pok = [...pok, result.data]
-  //       pok.sort((a,b)=>(a.id > b.id ? 1 : -1))
-  //       return pok
-  //     })
-  //   })
-  // }
+ const getalldata =   async() =>{
+  const res =await axios.get(url);
+  const poke = await res.data;
+  const createpokeobj =(resutl)=>{
+    resutl.forEach(async (pokemon)=>{
+      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`);
+      const poke = await res.data
+      setpokemon((currenlinst)=>[...currenlinst,poke]);      
+    })    
+  }
+  createpokeobj(poke.results)
+ }
+  useEffect(
+    ()=>{
+    getalldata()
+  },[url])
 
-  // useEffect(async()=>{
-  //   const res =await axios.get(url);
-  //   setpokemon((pok) => {
-  //     pok = [...pok,res.data]
-  //     return pok
-  //   })
-  // },[])
+  const  fechsearch = async(value)=>{
+    if (value){
+      try{
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${value}`)
+        setpokemon(res.data)
+      }catch (e){
+        console.log(e);
+      }
+    
+    }else{
+      if(pokemon.length > 0){
+        setpokemon([]);
+        getalldata()
+      }
+    }
+
+  }
+
+
   
   return (
     <div className='container'>
+
+      <h1 className='d-flex justify-content-center m-5'>Pokemon Dex</h1>
+
+      <Search props={fechsearch}/>
+
       {
         pokemon.length > 0 && (
-          <Card
-          key={pokemon.id}
+          <Card                    
           pokename={pokemon}
           />
         )
       }
+
+      
     </div>
   )
 }

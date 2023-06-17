@@ -4,17 +4,22 @@ import '../Card/Card.css'
 const Card = ({ pokename }) => {
 
     return (
-        
+
         <div className="row">
 
             {
-                pokename.map((item) => {
+                pokename.map((item,index) => {
                     return (
-                        <div className='card col-3'  >
-                            <div className="d-flex justify-content-between" >
-                                <span>{item.id}</span>
+                        <div className='card col-2' key={index}  >
+                            <div >
+                                
                                 <div className='left'>{item.name}</div>
-                                <div className='right'>Img</div>
+                                <img
+                                    height={138}
+                                    width={128}
+                                    className='right'
+                                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${item.id }.png`} />
+
                             </div>
                         </div>
                     )

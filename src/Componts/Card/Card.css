@@ -3,8 +3,15 @@
     width: 200px;
     margin: 10px;
     
+    
 }
 
 .left,.right{
     margin: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: capitalize;
 }
+
