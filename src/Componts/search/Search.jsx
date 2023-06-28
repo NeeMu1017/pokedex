@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
 
-const Search = ({props}) => {
+import React, {  useState } from 'react'
+
+const Search = ({setResult}) => {
     const [search, setSearch] = useState('')
-
-
+    setResult =search
+    
     const handelchange = (e) => {
-        setSearch(e.target.value)
+        setSearch(e);
+        
     }
 
    
@@ -14,11 +16,11 @@ const Search = ({props}) => {
         <div className='d-flex justify-content-end m-5'>
             <input type="text" className='me-2'
                 value={search}
-                onChange={(e)=>{handelchange(e)}}
+                onChange={(e)=>handelchange(e.target.value)}
             />
             <button >Search</button>
         </div>
     )
 }
 
-export default Search
+export default Search 
